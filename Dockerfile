@@ -1,9 +1,9 @@
-FROM alpine:latest as builder
+FROM alpine:3.12 as builder
 WORKDIR /root
-RUN apk add --no-cache git make build-base && \
-    git clone --branch master --single-branch https://github.com/Wind4/vlmcsd.git && \
-    cd vlmcsd/ && \
-    make
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+RUN apk add --no-cache git make build-base 
+RUN git clone --branch master --single-branch https://github.com/Wind4/vlmcsd.git 
+RUN cd vlmcsd/ && make
 
 FROM alpine:latest
 WORKDIR /root/
